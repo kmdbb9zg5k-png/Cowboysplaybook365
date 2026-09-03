@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#031126" />
+  <title>Episodes | The Cowboys Playbook 365</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body data-page="episodes">
+  <div id="site-header"></div>
+  <main>
+    <section class="page-hero shell split-hero">
+      <div><div class="eyebrow">Watch. Listen. React.</div><h1>EPISODES</h1><p class="lead">Every Cowboys conversation in one place — full shows, reactions, breakdowns and clips.</p></div>
+      <img class="page-logo" src="/assets/logo.jpeg" alt="The Cowboys Playbook 365 logo">
+    </section>
+
+    <section class="section shell">
+      <div class="filter-row" id="episode-filters">
+        <button class="filter active" data-filter="all">All Episodes</button>
+        <button class="filter" data-filter="news">News</button>
+        <button class="filter" data-filter="breakdown">Game Breakdown</button>
+        <button class="filter" data-filter="reaction">Reactions</button>
+        <button class="filter" data-filter="draft">Draft</button>
+      </div>
+      <div id="episodes-page-grid" class="episode-grid four"></div>
+    </section>
+
+    <section class="section shell">
+      <div class="subscribe-panel">
+        <div><div class="eyebrow">Never Miss An Episode</div><h2>Follow the show</h2><p>New episodes appear here automatically from the YouTube channel when the site is deployed.</p></div>
+        <div class="cta-row"><a class="btn btn-primary" data-youtube target="_blank" rel="noreferrer">▶ YouTube</a><a class="btn btn-ghost" data-tiktok target="_blank" rel="noreferrer">♪ TikTok</a></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
