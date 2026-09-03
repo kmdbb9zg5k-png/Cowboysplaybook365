@@ -1,0 +1,26 @@
+Build/import this website EXACTLY from the supplied project files. Do not redesign the visual system.
+
+PROJECT:
+The Cowboys Playbook 365 — hosted by Tyler Young.
+
+DESIGN:
+Premium dark navy / black / silver Cowboys-fan sports media aesthetic.
+Use the supplied `/assets/logo.jpeg` prominently.
+Keep the strong metallic-feeling typography, thin silver borders, subtle blue glow, stadium-media feel, responsive cards, and polished mobile layout already defined in `styles.css`.
+
+PAGES:
+Home, News, Episodes, About, Watch, Social, Contact.
+
+IMPORTANT FUNCTIONAL BEHAVIOR:
+1. Preserve the Vercel serverless functions in `/api`.
+2. `/api/news` keeps the Cowboys news hub automatically updated.
+3. `/api/youtube` keeps the episode library automatically updated from @thecowboysplaybook365.
+4. `/api/cowboys` populates the next-game section.
+5. Keep `/content/site.json` and `/content/tylers-take.json` as simple editable content sources.
+6. Preserve the supplied YouTube and TikTok links.
+7. Keep the fan-media disclaimer in the footer.
+8. Do not replace the supplied logo with a generated logo.
+9. Do not remove the fallback content — it is there so the site still looks complete if an external feed is temporarily unavailable.
+10. Make sure navigation and all pages work on both desktop and mobile.
+
+Do not add fake follower counts, fake episode statistics, fake sponsors, or fake contact information.
