@@ -6,5 +6,13 @@
   "youtube": "https://youtube.com/@thecowboysplaybook365?si=7UyrNdSiicTT1j1x",
   "tiktok": "https://www.tiktok.com/@thecowboysplaybook365?_r=1&_t=ZP-99LD0ByC5AU",
   "contactEmail": "Youngty215@icloud.com",
-  "disclaimer": "Independent fan media. Not affiliated with or endorsed by the Dallas Cowboys or the NFL."
+  "disclaimer": "Independent fan media. Not affiliated with or endorsed by the Dallas Cowboys or the NFL.",
+  "sponsor": {
+    "name": "Ball Knower",
+    "url": "https://ballknowerofficial.com",
+    "logo": "/assets/ballknower-logo.jpeg",
+    "tagline": "Draft. Build. Simulate. Dominate.",
+    "blurb": "Build an NFL roster under the salary cap, survive the 17-game simulation and earn your #1 fantasy draft pick. Prove you know ball.",
+    "cta": "Play at BallKnowerOfficial.com"
+  }
 }

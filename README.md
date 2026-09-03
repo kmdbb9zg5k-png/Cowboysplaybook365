@@ -38,6 +38,14 @@ Most common edits do not require touching the page HTML.
 - TikTok URL
 - contact email
 - disclaimer
+- sponsor (name, URL, logo, tagline, blurb, CTA)
+
+## Sponsorship
+The home page has a "Presented By" sponsor card (below the latest episode) plus a
+footer credit. It is fully driven by the `sponsor` block in `content/site.json` —
+swap the sponsor by editing that one block and replacing the logo in `assets/`.
+The entire card links out to the sponsor's site (currently Ball Knower,
+ballknowerofficial.com).
 
 `content/tylers-take.json`
 - headline

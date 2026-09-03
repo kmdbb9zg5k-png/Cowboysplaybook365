@@ -50,6 +50,7 @@ function footer(){
     <div><h4>Explore</h4><div class="footer-links"><a href="/">Home</a><a href="/news.html">News</a><a href="/episodes.html">Episodes</a><a href="/about.html">About</a></div></div>
     <div><h4>Follow</h4><div class="footer-links"><a data-youtube target="_blank" rel="noreferrer">YouTube</a><a data-tiktok target="_blank" rel="noreferrer">TikTok</a></div></div>
     <div><h4>Contact</h4><p>${SITE.contactEmail?`<a href="mailto:${esc(SITE.contactEmail)}">${esc(SITE.contactEmail)}</a>`:"Add the business email in content/site.json"}</p></div>
+    ${SITE.sponsor?`<div><h4>Sponsor</h4><div class="footer-links"><a href="${esc(SITE.sponsor.url)}" target="_blank" rel="noreferrer">${esc(SITE.sponsor.name)} →</a><small style="color:#7f8b9a;font-size:10px">Proudly presented by our sponsor</small></div></div>`:""}
   </div><div class="shell footer-bottom"><span>© ${new Date().getFullYear()} ${esc(SITE.name)}.</span><span>${esc(SITE.disclaimer)}</span></div></footer>`
 }
 function applyLinks(){
@@ -106,6 +107,17 @@ async function loadTake(){
   const data=await getJSON("/content/tylers-take.json",null); if(!data)return;
   el.querySelector("h3").textContent=data.title; el.querySelector("p").textContent=data.body; const a=el.querySelector("a"); a.textContent=(data.cta||"Watch the latest breakdown")+" →";
 }
+function loadSponsor(){
+  const card=document.querySelector("#sponsor-card"); if(!card)return;
+  const s=SITE.sponsor;
+  if(!s){document.querySelector("#sponsor")?.remove();return}
+  card.href=s.url||"#";
+  if(s.name)document.querySelector("#sponsor-name").textContent=s.name;
+  if(s.tagline)document.querySelector("#sponsor-tagline").textContent=s.tagline;
+  if(s.blurb)document.querySelector("#sponsor-blurb").textContent=s.blurb;
+  if(s.cta)document.querySelector("#sponsor-cta").textContent=s.cta;
+  if(s.logo)document.querySelector("#sponsor-logo").src=s.logo;
+}
 async function loadGame(){
   const el=document.querySelector("#next-game"); if(!el)return;
   const data=await getJSON("/api/cowboys",null);
@@ -155,6 +167,6 @@ async function boot(){
     const vid=episodes[0].videoId; wf.innerHTML=vid?`<iframe src="https://www.youtube.com/embed/${esc(vid)}" title="${esc(episodes[0].title)}" allowfullscreen loading="lazy"></iframe>`:`<div class="subscribe-panel"><div><h2>${esc(episodes[0].title)}</h2><p>Open the newest episode on YouTube.</p></div><a class="btn btn-primary" href="${esc(episodes[0].url)}" target="_blank" rel="noreferrer">▶ Watch</a></div>`;
   }
 
-  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); setupFilters(); setupPoll(); setupContact(); applyLinks();
+  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); loadSponsor(); setupFilters(); setupPoll(); setupContact(); applyLinks();
 }
 boot();
