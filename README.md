@@ -15,9 +15,18 @@ A multi-page, mobile-first website package built around the supplied CP365 logo.
 The Vercel serverless functions inside `/api` provide:
 - `/api/news` — recent Dallas Cowboys headlines from Google News RSS, cached on Vercel
 - `/api/youtube` — loads the latest YouTube uploads from the channel's videos page (the channel's RSS feed is not published, so the function reads the page's embedded data instead), no API key required
-- `/api/cowboys` — next Cowboys game from ESPN's public site API
+- `/api/cowboys` — next Cowboys game **and live game** (scores + clock) from ESPN's public site API. During a game the home card flips to a red LIVE score display and auto-refreshes every 60s.
 
 The frontend has fallback content, so the design still renders if an external feed is temporarily unavailable.
+
+## Features
+- **Global search** — press `/` (or the ⌕ button in the nav) to search episodes, news and pages from any page.
+- **Live game score** — the "Next Cowboys game" card becomes a live scoreboard during games.
+- **Daily Take email signup** — home-page card that delivers new subscribers to the business email in `content/site.json`.
+- **Site music** — theme song auto-plays (with a "turn on the show music" fallback for browsers that block autoplay); toggle in the nav, remembers the visitor's choice.
+- **Sponsorship** — home-page "Presented By" card + footer credit, driven by the `sponsor` block in `content/site.json`.
+- **PWA** — `manifest.json` lets fans "Add to Home Screen"; favicons + Open Graph/Twitter share tags on every page.
+- **SEO** — `robots.txt` + `sitemap.xml` (update the domain in both when the site has its final URL).
 
 ## Local preview (no Vercel needed)
 Run the site on your own machine to see it with live data:

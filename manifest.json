@@ -1,0 +1,16 @@
+{
+  "name": "The Cowboys Playbook 365",
+  "short_name": "CP365",
+  "description": "Year-round Dallas Cowboys talk. News. Breakdowns. Reactions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#02060d",
+  "theme_color": "#031126",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

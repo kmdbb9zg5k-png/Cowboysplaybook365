@@ -15,21 +15,31 @@ export default async function handler(req, res) {
       const cowboys = (c.competitors || []).find(x => x.team?.abbreviation === "DAL");
       const opponent = (c.competitors || []).find(x => x.team?.abbreviation !== "DAL");
       const date = new Date(event.date);
+      const st = event.status?.type || {};
+      const dalScore = cowboys?.score?.displayValue ?? cowboys?.score?.value ?? "";
+      const oppScore = opponent?.score?.displayValue ?? opponent?.score?.value ?? "";
       return {
         ts: date.getTime(),
         dateLabel: date.toLocaleDateString("en-US",{month:"short",day:"numeric"}),
         timeLabel: date.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}),
         opponent: opponent?.team?.displayName || "Opponent",
+        oppAbbr: opponent?.team?.abbreviation || "",
         homeAway: cowboys?.homeAway || "",
         venue: c.venue?.fullName || "",
-        status: event.status?.type?.description || "Scheduled"
+        status: st.description || "Scheduled",
+        state: st.state || "",
+        shortDetail: st.shortDetail || "",
+        dalScore,
+        oppScore
       };
     });
 
+    // A game is "live" when ESPN marks it in-progress (state "in").
+    const liveGame = mapped.find(x => x.state === "in") || null;
     const nextGame = mapped.filter(x => x.ts >= now).sort((a,b)=>a.ts-b.ts)[0] || mapped.sort((a,b)=>b.ts-a.ts)[0] || null;
 
     res.setHeader("Cache-Control", "s-maxage=1800, stale-while-revalidate=3600");
-    res.status(200).json({ nextGame, refreshedAt: new Date().toISOString() });
+    res.status(200).json({ nextGame, liveGame, refreshedAt: new Date().toISOString() });
   } catch (error) {
     res.status(500).json({ error: error.message, nextGame: null });
   }

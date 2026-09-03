@@ -40,8 +40,8 @@ function header(){
   return `<header class="site-header"><nav class="nav shell" id="nav">
     <a class="brand" href="/"><img src="/assets/logo.jpeg" alt=""><span class="brand-copy"><strong>THE COWBOYS PLAYBOOK 365</strong><small>HOSTED BY ${esc(SITE.host)}</small></span></a>
     <button class="mobile-menu" id="mobile-menu" aria-label="Open menu">☰</button>
-    <div class="nav-links">${links.map(([k,u,l])=>`<a class="${page===k?"active":""}" href="${u}">${l}</a>`).join("")}</div>
-    <div class="nav-social"><button class="sound-toggle" id="sound-toggle" aria-label="Toggle site music" title="Toggle site music">🔇</button><a data-youtube target="_blank" rel="noreferrer">▶</a><a data-tiktok target="_blank" rel="noreferrer">♪</a></div>
+    <div class="nav-links">${links.map(([k,u,l])=>`<a class="${page===k?"active":""}" href="${u}">${l}</a>`).join("")}<button class="filter search-toggle mobile-search" id="mobile-search-toggle">⌕ Search</button></div>
+    <div class="nav-social"><button class="search-toggle" id="search-toggle" aria-label="Search" title="Search ( / )">⌕</button><button class="sound-toggle" id="sound-toggle" aria-label="Toggle site music" title="Toggle site music">🔇</button><a data-youtube target="_blank" rel="noreferrer">▶</a><a data-tiktok target="_blank" rel="noreferrer">♪</a></div>
   </nav></header>`
 }
 function footer(){
@@ -175,14 +175,85 @@ function loadSponsor(){
   if(s.cta)document.querySelector("#sponsor-cta").textContent=s.cta;
   if(s.logo)document.querySelector("#sponsor-logo").src=s.logo;
 }
+let gameRefreshTimer = null;
 async function loadGame(){
   const el=document.querySelector("#next-game"); if(!el)return;
   const data=await getJSON("/api/cowboys",null);
-  if(!data||!data.nextGame){return}
-  const g=data.nextGame;
+  if(!data)return;
+  const g = data.liveGame || data.nextGame;
+  if(!g){return}
+  const isLive = !!data.liveGame;
+  const isFinal = /final/i.test(g.status||"");
+  if(isLive){
+    el.className="game-card live";
+    el.innerHTML=`<div class="game-team"><span class="mini-star">★</span><div><strong>Dallas</strong><small class="game-score">${esc(g.dalScore)}</small></div></div>
+    <div class="game-center-copy"><span class="live-badge"><span class="live-dot"></span> LIVE</span><strong>${esc(g.shortDetail||"In Progress")}</strong><small>${esc(g.opponent||"")}</small></div>
+    <div class="game-team align-right"><div><strong>${esc(g.oppAbbr||g.opponent)}</strong><small class="game-score">${esc(g.oppScore)}</small></div><span class="mini-star">☆</span></div>`;
+    // Refresh every 60s while live
+    if(gameRefreshTimer) clearInterval(gameRefreshTimer);
+    gameRefreshTimer = setInterval(loadGame, 60000);
+    return;
+  }
+  if(gameRefreshTimer){ clearInterval(gameRefreshTimer); gameRefreshTimer=null; }
+  el.className="game-card";
+  const statusLabel = isFinal ? "FINAL" : (g.status||"NEXT GAME");
+  const showScore = isFinal && g.dalScore !== "" && g.oppScore !== "";
+  if(showScore){
+    el.innerHTML=`<div class="game-team"><span class="mini-star">★</span><div><strong>Dallas</strong><small class="game-score">${esc(g.dalScore)}</small></div></div>
+    <div class="game-center-copy"><span>${esc(statusLabel)}</span><strong>${esc(g.dateLabel||"")}</strong><small>${esc(g.venue||"")}</small></div>
+    <div class="game-team align-right"><div><strong>${esc(g.oppAbbr||g.opponent)}</strong><small class="game-score">${esc(g.oppScore)}</small></div><span class="mini-star">☆</span></div>`;
+    return;
+  }
   el.innerHTML=`<div class="game-team"><span class="mini-star">★</span><div><strong>Dallas Cowboys</strong><small>${esc(g.homeAway==="home"?"Home":"Away")}</small></div></div>
-  <div class="game-center-copy"><span>${esc(g.status||"NEXT GAME")}</span><strong>${esc(g.dateLabel||"")}</strong><small>${esc(g.timeLabel||"")}</small></div>
+  <div class="game-center-copy"><span>${esc(statusLabel)}</span><strong>${esc(g.dateLabel||"")}</strong><small>${esc(g.timeLabel||"")}</small></div>
   <div class="game-team align-right"><div><strong>${esc(g.opponent||"Opponent")}</strong><small>${esc(g.venue||"")}</small></div><span class="mini-star">☆</span></div>`;
+}
+function setupSearch(){
+  let overlay = document.querySelector("#search-overlay");
+  if(!overlay){
+    overlay = document.createElement("div");
+    overlay.id = "search-overlay";
+    overlay.className = "search-overlay";
+    overlay.innerHTML = `
+      <div class="search-box">
+        <div class="search-top">
+          <input id="search-input" type="search" placeholder="Search episodes, news & pages…" autocomplete="off">
+          <button class="search-close" id="search-close" aria-label="Close search">✕</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+      </div>`;
+    document.body.appendChild(overlay);
+  }
+  const input = overlay.querySelector("#search-input");
+  const results = overlay.querySelector("#search-results");
+  const pages = [["Home","/"],["News","/news.html"],["Episodes","/episodes.html"],["Watch","/watch.html"],["About","/about.html"],["Social","/social.html"],["Contact","/contact.html"]];
+  function open(){ overlay.classList.add("open"); setTimeout(()=>input.focus(),60); }
+  function close(){ overlay.classList.remove("open"); input.value=""; results.innerHTML=""; }
+  overlay.addEventListener("click", e=>{ if(e.target===overlay) close(); });
+  overlay.querySelector("#search-close").addEventListener("click", close);
+  const st = document.querySelector("#search-toggle");
+  if(st) st.addEventListener("click", ()=> overlay.classList.contains("open")?close():open());
+  const mst = document.querySelector("#mobile-search-toggle");
+  if(mst) mst.addEventListener("click", ()=>{ document.querySelector("#nav")?.classList.remove("open"); overlay.classList.contains("open")?close():open(); });
+  document.addEventListener("keydown", e=>{
+    if(e.key==="Escape" && overlay.classList.contains("open")) close();
+    if(e.key==="/" && !overlay.classList.contains("open") && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); open(); }
+  });
+  function runSearch(q){
+    q = q.trim().toLowerCase();
+    if(!q){ results.innerHTML = `<div class="search-hint">Type to search episodes, news and pages. Press <b>/</b> anytime.</div>`; return; }
+    const ep = episodes.filter(e=>e.title.toLowerCase().includes(q)).slice(0,6).map(e=>({type:"Episode",title:e.title,url:e.url||SITE.youtube,thumb:e.thumbnail,ext:true}));
+    const nw = newsItems.filter(n=>n.title.toLowerCase().includes(q)).slice(0,6).map(n=>({type:"News",title:n.title,url:n.url,src:n.source,ext:n.url&&n.url!=="#"}));
+    const pg = pages.filter(p=>p[0].toLowerCase().includes(q)).map(p=>({type:"Page",title:p[0],url:p[1]}));
+    const all = [...ep,...nw,...pg];
+    results.innerHTML = all.length ? all.map(r=>`
+      <a class="search-item ${r.type.toLowerCase()}" href="${esc(r.url)}" ${r.ext?'target="_blank" rel="noreferrer"':""}>
+        ${r.thumb?`<img src="${esc(r.thumb)}" alt="">`:`<span class="search-type-ic">${r.type==="Episode"?"▶":r.type==="News"?"▤":"§"}</span>`}
+        <div><span class="search-type">${r.type}${r.src?` · ${esc(r.src)}`:""}</span><strong>${esc(r.title)}</strong></div>
+      </a>`).join("") : `<div class="search-hint">No matches for “${esc(q)}”.</div>`;
+  }
+  input.addEventListener("input", ()=>runSearch(input.value));
+  runSearch("");
 }
 function setupPoll(){
   const p=document.querySelector("#fan-poll"); if(!p)return;
@@ -190,6 +261,24 @@ function setupPoll(){
   p.querySelectorAll("button").forEach(b=>{
     if(saved===b.dataset.vote)b.classList.add("voted");
     b.addEventListener("click",()=>{localStorage.setItem("cp365_vote",b.dataset.vote);p.querySelectorAll("button").forEach(x=>x.classList.remove("voted"));b.classList.add("voted");b.textContent=b.dataset.vote+" ✓";});
+  });
+}
+function setupSignup(){
+  const form=document.querySelector("#signup-form"); if(!form)return;
+  const note=document.querySelector("#signup-note");
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    const email=form.email.value.trim();
+    if(!email) return;
+    if(SITE.contactEmail){
+      const subject=encodeURIComponent("New Daily Take subscriber");
+      const body=encodeURIComponent(`A fan just signed up for the Daily Take:\n\nEmail: ${email}\n\n(Add them to the CP365 email list.)`);
+      window.location.href=`mailto:${SITE.contactEmail}?subject=${subject}&body=${body}`;
+    }
+    localStorage.setItem("cp365_signup",email);
+    form.style.display="none";
+    note.textContent=`You're in, ${email.split("@")[0]}! Check your inbox to confirm. 🤠`;
+    note.classList.add("done");
   });
 }
 function setupContact(){
@@ -224,6 +313,6 @@ async function boot(){
     const vid=episodes[0].videoId; wf.innerHTML=vid?`<iframe src="https://www.youtube.com/embed/${esc(vid)}" title="${esc(episodes[0].title)}" allowfullscreen loading="lazy"></iframe>`:`<div class="subscribe-panel"><div><h2>${esc(episodes[0].title)}</h2><p>Open the newest episode on YouTube.</p></div><a class="btn btn-primary" href="${esc(episodes[0].url)}" target="_blank" rel="noreferrer">▶ Watch</a></div>`;
   }
 
-  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); loadSponsor(); setupFilters(); setupPoll(); setupContact(); setupSiteSound(); applyLinks();
+  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); loadSponsor(); setupFilters(); setupPoll(); setupContact(); setupSignup(); setupSearch(); setupSiteSound(); applyLinks();
 }
 boot();

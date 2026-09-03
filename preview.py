@@ -149,19 +149,33 @@ def api_cowboys():
         if len(dstr) == 16:
             dstr += ":00"
         ts = time.mktime(time.strptime(dstr, "%Y-%m-%dT%H:%M:%S")) * 1000
+        st = ((ev.get("status") or {}).get("type") or {})
+        def score_of(comp):
+            if not comp:
+                return ""
+            s = comp.get("score")
+            if isinstance(s, dict):
+                return s.get("displayValue", s.get("value", ""))
+            return s or ""
         mapped.append({
             "ts": ts,
             "dateLabel": time.strftime("%b %d", time.gmtime(ts / 1000)),
             "timeLabel": time.strftime("%I:%M %p", time.gmtime(ts / 1000)).lstrip("0"),
             "opponent": (opp.get("team") or {}).get("displayName", "Opponent") if opp else "Opponent",
+            "oppAbbr": (opp.get("team") or {}).get("abbreviation", "") if opp else "",
             "homeAway": cowboys.get("homeAway", "") if cowboys else "",
             "venue": (c.get("venue") or {}).get("fullName", ""),
-            "status": ((ev.get("status") or {}).get("type") or {}).get("description", "Scheduled"),
+            "status": st.get("description", "Scheduled"),
+            "state": st.get("state", ""),
+            "shortDetail": st.get("shortDetail", ""),
+            "dalScore": score_of(cowboys),
+            "oppScore": score_of(opp),
         })
     future = sorted([x for x in mapped if x["ts"] >= now], key=lambda x: x["ts"])
     past = sorted(mapped, key=lambda x: x["ts"], reverse=True)
     next_game = (future or past or [None])[0]
-    return {"nextGame": next_game, "refreshedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    live_game = next((x for x in mapped if x["state"] == "in"), None)
+    return {"nextGame": next_game, "liveGame": live_game, "refreshedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 
 
 API = {"/api/news": api_news, "/api/youtube": api_youtube, "/api/cowboys": api_cowboys}
