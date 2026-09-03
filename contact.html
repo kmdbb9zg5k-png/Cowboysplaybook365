@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#031126" />
+  <title>Contact | The Cowboys Playbook 365</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body data-page="contact">
+  <div id="site-header"></div>
+  <main>
+    <section class="page-hero shell">
+      <div class="eyebrow">Contact CP365</div><h1>GET IN TOUCH</h1><p class="lead">Fan questions, show topics, collaborations, sponsorships and business inquiries.</p>
+    </section>
+    <section class="section shell two-col">
+      <form class="contact-form" id="contact-form">
+        <div class="form-row"><input required name="name" placeholder="Your name"><input required type="email" name="email" placeholder="Your email"></div>
+        <input required name="subject" placeholder="Subject">
+        <textarea required name="message" rows="8" placeholder="Your message"></textarea>
+        <button class="btn btn-primary" type="submit">Send Message</button>
+        <p class="form-note" id="contact-note">Add a business email in <code>content/site.json</code> and this form will open a ready-to-send email.</p>
+      </form>
+      <aside class="business-card">
+        <div class="eyebrow">Business Inquiries</div><h2>Work with CP365</h2>
+        <p>Partnerships, sponsorships, media requests and collaborations.</p>
+        <a id="business-email" class="btn btn-ghost" href="#">Add business email</a>
+      </aside>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
