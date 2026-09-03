@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cowboys-playbook-365.vercel.app/sitemap.xml
+Sitemap: https://cowboysplaybook365.vercel.app/sitemap.xml
