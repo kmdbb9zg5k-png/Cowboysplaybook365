@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#031126" />
+  <title>The Cowboys Playbook 365</title>
+  <meta name="description" content="Year-round Dallas Cowboys talk, news, reactions, breakdowns, videos and fan conversation with Tyler Young." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body data-page="home">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> ALL IN. ALL SEASON.</div>
+        <h1>THE COWBOYS<br><span>PLAYBOOK 365</span></h1>
+        <p class="lead">Year-round Cowboys talk. Breaking news, game breakdowns, reactions, predictions and the conversations Cowboys fans actually want to have.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" data-youtube target="_blank" rel="noreferrer">▶ Watch on YouTube</a>
+          <a class="btn btn-ghost" data-tiktok target="_blank" rel="noreferrer">♪ Follow on TikTok</a>
+        </div>
+      </div>
+      <div class="hero-logo-wrap">
+        <div class="halo"></div>
+        <img class="hero-logo" src="/assets/logo.jpeg" alt="The Cowboys Playbook 365 logo" />
+      </div>
+    </section>
+
+    <section class="ticker-wrap">
+      <div class="shell ticker">
+        <span class="ticker-label">BREAKING</span>
+        <div id="ticker-track" class="ticker-track">Loading the latest Cowboys headlines…</div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Latest Episode</div>
+          <h2>Watch the newest show</h2>
+        </div>
+        <a class="text-link" href="/episodes.html">All episodes →</a>
+      </div>
+      <div id="latest-episode" class="feature-panel loading-card">
+        <div class="skeleton media-skeleton"></div>
+        <div class="feature-copy">
+          <div class="skeleton line short"></div>
+          <div class="skeleton line wide"></div>
+          <div class="skeleton line medium"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="game-center">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Game Center</div>
+          <h2>Next Cowboys game</h2>
+        </div>
+        <a class="text-link" href="/news.html">Game-day news →</a>
+      </div>
+      <div id="next-game" class="game-card">
+        <div class="game-team">
+          <span class="mini-star">★</span>
+          <div><strong>Dallas Cowboys</strong><small>Loading schedule…</small></div>
+        </div>
+        <div class="game-center-copy"><span>VS</span><strong>—</strong><small>—</small></div>
+        <div class="game-team align-right"><div><strong>Opponent</strong><small>—</small></div><span class="mini-star">☆</span></div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Tyler's Take</div>
+          <h2>The host's read on the story</h2>
+        </div>
+      </div>
+      <article id="tylers-take" class="take-card">
+        <div class="take-mark">TY</div>
+        <div>
+          <h3>Loading Tyler's Take…</h3>
+          <p></p>
+          <a data-youtube class="text-link" target="_blank" rel="noreferrer">Watch the latest breakdown →</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Latest Cowboys News</div>
+          <h2>What Cowboys Nation is talking about</h2>
+        </div>
+        <a class="text-link" href="/news.html">Open News Hub →</a>
+      </div>
+      <div id="news-grid" class="news-grid">
+        <div class="news-card loading-card"><div class="skeleton line wide"></div><div class="skeleton line medium"></div></div>
+        <div class="news-card loading-card"><div class="skeleton line wide"></div><div class="skeleton line medium"></div></div>
+        <div class="news-card loading-card"><div class="skeleton line wide"></div><div class="skeleton line medium"></div></div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Why Fans Tune In</div>
+          <h2>More than a podcast page</h2>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <article class="mini-card"><div class="icon">▤</div><h3>News</h3><p>Fresh Cowboys headlines and roster updates, refreshed automatically.</p></article>
+        <article class="mini-card"><div class="icon">⌁</div><h3>Breakdowns</h3><p>Film, matchups and what actually decided the game.</p></article>
+        <article class="mini-card"><div class="icon">◉</div><h3>Reactions</h3><p>Real takes on the biggest moments in Cowboys Nation.</p></article>
+        <article class="mini-card"><div class="icon">★</div><h3>Community</h3><p>Polls, fan takes and questions that can make the show.</p></article>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Recent Episodes</div>
+          <h2>Catch up</h2>
+        </div>
+        <a class="text-link" href="/episodes.html">View all →</a>
+      </div>
+      <div id="episode-grid" class="episode-grid"></div>
+    </section>
+
+    <section class="section shell">
+      <div class="poll-card">
+        <div>
+          <div class="eyebrow">Fan Poll</div>
+          <h2>How many games will Dallas win this season?</h2>
+          <p>Vote now. A shared live poll can be connected to Supabase later without redesigning the page.</p>
+        </div>
+        <div class="poll-options" id="fan-poll">
+          <button data-vote="8 or fewer">8 or fewer</button>
+          <button data-vote="9–10">9–10</button>
+          <button data-vote="11–12">11–12</button>
+          <button data-vote="13+">13+</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Watch & Follow</div>
+          <h2>CP365 everywhere</h2>
+        </div>
+      </div>
+      <div class="social-grid">
+        <a class="social-card youtube" data-youtube target="_blank" rel="noreferrer">
+          <span class="social-logo">▶</span><div><strong>YouTube</strong><small>Full episodes, live streams and breakdowns</small></div><span>→</span>
+        </a>
+        <a class="social-card tiktok" data-tiktok target="_blank" rel="noreferrer">
+          <span class="social-logo">♪</span><div><strong>TikTok</strong><small>Daily clips, reactions and quick takes</small></div><span>→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
