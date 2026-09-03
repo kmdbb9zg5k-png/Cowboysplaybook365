@@ -16,7 +16,12 @@ a{color:inherit;text-decoration:none}.shell{width:min(1180px,calc(100% - 40px));
 .brand-copy{display:flex;flex-direction:column;line-height:1}.brand-copy strong{font-size:15px}.brand-copy small{font-size:9px;color:#a9b9d0;letter-spacing:.16em;margin-top:6px}
 .nav-links{display:flex;gap:24px;align-items:center;font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
 .nav-links a{opacity:.72;padding:28px 0 24px;border-bottom:2px solid transparent}.nav-links a:hover,.nav-links a.active{opacity:1;border-color:#75a8ff;text-shadow:0 0 20px rgba(117,168,255,.7)}
-.mobile-menu{display:none;background:none;border:0;color:white;font-size:26px}.nav-social{display:flex;gap:10px}.nav-social a{width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;border-radius:8px;font-weight:900}
+.mobile-menu{display:none;background:none;border:0;color:white;font-size:26px}.nav-social{display:flex;gap:10px}.nav-social a,.nav-social .sound-toggle{width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;border-radius:8px;font-weight:900;font-size:14px}
+.nav-social .sound-toggle{background:rgba(255,255,255,.04);color:#cdd8e8;cursor:pointer}
+.nav-social .sound-toggle.on{background:rgba(212,175,55,.16);border-color:rgba(212,175,55,.5);color:#f0d98a}
+.sound-banner{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;border:1px solid rgba(212,175,55,.5);background:rgba(3,10,21,.92);backdrop-filter:blur(12px);color:#f0d98a;font-size:12px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.5);animation:soundpop .35s ease}
+.sound-banner:hover{background:rgba(212,175,55,.18)}
+@keyframes soundpop{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
 .hero{min-height:720px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;padding-top:65px;padding-bottom:70px}
 .hero-copy h1,.page-hero h1{font-size:clamp(54px,7vw,98px);line-height:.88;margin:15px 0 24px;letter-spacing:-.055em;font-weight:1000;text-transform:uppercase}
 .hero-copy h1 span{background:linear-gradient(180deg,#fff 0%,#cdd5df 52%,#748094 100%);-webkit-background-clip:text;color:transparent}

@@ -41,7 +41,7 @@ function header(){
     <a class="brand" href="/"><img src="/assets/logo.jpeg" alt=""><span class="brand-copy"><strong>THE COWBOYS PLAYBOOK 365</strong><small>HOSTED BY ${esc(SITE.host)}</small></span></a>
     <button class="mobile-menu" id="mobile-menu" aria-label="Open menu">☰</button>
     <div class="nav-links">${links.map(([k,u,l])=>`<a class="${page===k?"active":""}" href="${u}">${l}</a>`).join("")}</div>
-    <div class="nav-social"><a data-youtube target="_blank" rel="noreferrer">▶</a><a data-tiktok target="_blank" rel="noreferrer">♪</a></div>
+    <div class="nav-social"><button class="sound-toggle" id="sound-toggle" aria-label="Toggle site music" title="Toggle site music">🔇</button><a data-youtube target="_blank" rel="noreferrer">▶</a><a data-tiktok target="_blank" rel="noreferrer">♪</a></div>
   </nav></header>`
 }
 function footer(){
@@ -56,6 +56,63 @@ function footer(){
 function applyLinks(){
   document.querySelectorAll("[data-youtube]").forEach(a=>a.href=SITE.youtube);
   document.querySelectorAll("[data-tiktok]").forEach(a=>a.href=SITE.tiktok);
+}
+const SITE_AUDIO = new Audio("/assets/cowboys-playbook-365.mp3");
+SITE_AUDIO.loop = true;
+SITE_AUDIO.volume = 0.5;
+function soundOn(){ return localStorage.getItem("cp365_sound") === "on"; }
+function soundOff(){ return localStorage.getItem("cp365_sound") === "off"; }
+function setSoundUI(on){
+  const t = document.querySelector("#sound-toggle");
+  if(t){ t.textContent = on ? "🔊" : "🔇"; t.classList.toggle("on", on); }
+  const b = document.querySelector("#sound-banner");
+  if(b) b.style.display = on ? "none" : "";
+}
+function startSiteSound(){
+  SITE_AUDIO.play().then(()=>{
+    setSoundUI(true);
+  }).catch(()=>{
+    // Autoplay blocked — show the "enable sound" banner instead.
+    if(!soundOff()){
+      let b = document.querySelector("#sound-banner");
+      if(!b){
+        b = document.createElement("button");
+        b.id = "sound-banner";
+        b.className = "sound-banner";
+        b.innerHTML = "🔊 <span>Turn on the show music</span>";
+        b.addEventListener("click", ()=>{
+          SITE_AUDIO.play().then(()=>{ localStorage.setItem("cp365_sound","on"); setSoundUI(true); }).catch(()=>{});
+        });
+        document.body.appendChild(b);
+      }
+      b.style.display = "";
+    }
+  });
+}
+function setupSiteSound(){
+  const t = document.querySelector("#sound-toggle");
+  if(t) t.addEventListener("click", ()=>{
+    if(SITE_AUDIO.paused){
+      SITE_AUDIO.play().then(()=>{ localStorage.setItem("cp365_sound","on"); setSoundUI(true); }).catch(()=>{});
+    } else {
+      SITE_AUDIO.pause();
+      localStorage.setItem("cp365_sound","off");
+      setSoundUI(false);
+    }
+  });
+  if(soundOff()){ setSoundUI(false); return; }
+  // Attempt autoplay immediately on page load.
+  startSiteSound();
+  // Browsers that block autoplay: start on the visitor's first tap/click/keypress.
+  if(SITE_AUDIO.paused){
+    const tryOnce = () => {
+      if(SITE_AUDIO.paused) startSiteSound();
+      window.removeEventListener("pointerdown", tryOnce);
+      window.removeEventListener("keydown", tryOnce);
+    };
+    window.addEventListener("pointerdown", tryOnce, { once:true });
+    window.addEventListener("keydown", tryOnce, { once:true });
+  }
 }
 function episodeCard(e){
   const img=e.thumbnail?`<img loading="lazy" src="${esc(e.thumbnail)}" alt="">`:`<div style="height:100%;display:grid;place-items:center;font-weight:1000;font-size:30px;color:#a9c9f5">CP365</div>`;
@@ -167,6 +224,6 @@ async function boot(){
     const vid=episodes[0].videoId; wf.innerHTML=vid?`<iframe src="https://www.youtube.com/embed/${esc(vid)}" title="${esc(episodes[0].title)}" allowfullscreen loading="lazy"></iframe>`:`<div class="subscribe-panel"><div><h2>${esc(episodes[0].title)}</h2><p>Open the newest episode on YouTube.</p></div><a class="btn btn-primary" href="${esc(episodes[0].url)}" target="_blank" rel="noreferrer">▶ Watch</a></div>`;
   }
 
-  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); loadSponsor(); setupFilters(); setupPoll(); setupContact(); applyLinks();
+  loadLatestEpisode(); loadTicker(); loadTake(); loadGame(); loadSponsor(); setupFilters(); setupPoll(); setupContact(); setupSiteSound(); applyLinks();
 }
 boot();
