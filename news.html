@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#031126" />
+  <title>News | The Cowboys Playbook 365</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body data-page="news">
+  <div id="site-header"></div>
+  <main>
+    <section class="page-hero shell split-hero">
+      <div><div class="eyebrow"><span class="live-dot"></span> Auto-updating</div><h1>COWBOYS NEWS</h1><p class="lead">Breaking headlines, roster moves, injuries, draft talk and game-day updates in one live feed.</p></div>
+      <img class="page-logo" src="/assets/logo.jpeg" alt="The Cowboys Playbook 365 logo">
+    </section>
+
+    <section class="ticker-wrap"><div class="shell ticker"><span class="ticker-label">LATEST</span><div id="ticker-track" class="ticker-track">Loading headlines…</div></div></section>
+
+    <section class="section shell">
+      <div class="filter-row" id="news-filters">
+        <button class="filter active" data-news-filter="all">All News</button>
+        <button class="filter" data-news-filter="injury">Injuries</button>
+        <button class="filter" data-news-filter="roster">Roster Moves</button>
+        <button class="filter" data-news-filter="draft">Draft</button>
+        <button class="filter" data-news-filter="game">Game Day</button>
+      </div>
+      <div id="news-page-grid" class="news-grid three"></div>
+    </section>
+
+    <section class="section shell">
+      <div class="take-card">
+        <div class="take-mark">TY</div>
+        <div><div class="eyebrow">Tyler's Take</div><h3>Make the news yours.</h3><p>The news feed refreshes itself. Tyler's Take is the original CP365 layer — a quick opinion your brother can change in one small JSON file whenever he wants.</p><a data-youtube class="text-link" target="_blank" rel="noreferrer">Watch CP365 →</a></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
